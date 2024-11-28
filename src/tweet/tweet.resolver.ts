@@ -45,6 +45,14 @@ export class TweetResolver {
     return this.tweetService.search(userId, limit, page, filters);
   }
 
+  @Query(() => Boolean)
+  async canEditTweet(
+    @Args({ name: 'userId', type: () => ID }) userId: string,
+    @Args({ name: 'tweetId', type: () => ID }) tweetId: string,
+  ) {
+    return this.tweetService.canEditTweet(tweetId, userId);
+  }
+
   @Mutation(() => Boolean)
   async updateTweetPermissions(
     @Args({ name: 'input', type: () => UpdateTweetPermissionsInput })

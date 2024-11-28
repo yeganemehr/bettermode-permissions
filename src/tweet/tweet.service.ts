@@ -360,7 +360,7 @@ export class TweetService {
   async softRemove(id: string, actorId?: string) {
     const tweet = await this.findOneOrFail(id, actorId);
     if (actorId) {
-      const hasAccess = await this.hasEditAccess(tweet, actorId);
+      const hasAccess = await this.canEditTweet(tweet, actorId);
       if (!hasAccess) {
         throw new ForbiddenException("You can't remove this tweet");
       }
@@ -368,7 +368,7 @@ export class TweetService {
     await this.tweetRepository.softDelete(id);
   }
 
-  async hasEditAccess(
+  async canEditTweet(
     tweet: string | Tweet,
     actorId: string,
   ): Promise<boolean> {
